@@ -16,10 +16,10 @@ close all
 
 %% Definition of problem 
 
-param.population = 10000;
-param.p_loners      = 0.45;
-param.p_cooperators = 0.3;
-param.p_defectors   = 1-param.p_cooperators-param.p_loners;
+param.population = 10000;       % total population
+param.p_loners      = 0.45;     % initial percentage of loners
+param.p_cooperators = 0.3;      % initial percentage of cooperators
+param.p_defectors   = 1-param.p_cooperators-param.p_loners; % initial percentage of defectors
 param.n_cooperators = param.population*param.p_cooperators;
 param.n_defectors   = param.population*param.p_defectors;
 param.n_loners      = param.population*param.p_loners;
@@ -39,7 +39,10 @@ function game = play_game(param)
 %   Output: game structure
 %
 
-game_composition = rand(1,param.N);
+% NOTE: the sampling mechanism implemented here works only for the first
+% game played --> must implement a smarter way!
+
+game_composition = rand(1,param.N);             
 loners = (game_composition < param.p_loners);   % select loners
 game.n_l = nnz(loners);                         % count loners
 players = game_composition(loners~=1);          % eliminate loners from game
@@ -56,18 +59,23 @@ else
 
     % sigma should be > 0 and < r-1 ==> betetr to loner than in a group of
     % defectors; but better still be in a group of cooperators.
-    game.sigma = 0.75*(game.r-1);
-    game.Pd = game.r*game.n_c/game.S;
-    game.Pc = game.Pd-1;
-    game.payoff = game.Pd*ones(param.N);
+    game.sigma = 0.75*(game.r-1);           % payoff for loners
+    game.Pd = game.r*game.n_c/game.S;       % payoff for defectors
+    game.Pc = game.Pd-1;                    % payoff for cooperators
+    game.payoff = game.Pd*ones(param.N);    
     game.payoff(loners) = game.sigma;
-    game.payoff(cooperators) = game.Pc;
+    game.payoff(cooperators) = game.Pc;     % distribution of playoffs between all players
     
     % It can be found that the medium payoff for cooperators is better than
     % the one for defectors (Pc/nc)>(Pd/nd) if nc is between these two
     % values: 
     %   (S*(r + (r^2 - 6*r + 1)^(1/2) + 1))/(4*r)
     %   (S*(r - (r^2 - 6*r + 1)^(1/2) + 1))/(4*r)
+    % 
+    % "winner" refers who had the best medium payoff between the
+    % cooperators or defectors.
+    % "best payoff" refers to which of the three categoris had the best
+    % medium payoff.
     if game.Pc/game.n_c >= game.Pd/(game.S-game.n_c)
         game.winners = 'cooperators';
         if game.sigma/game.n_l >= game.Pc/game.n_c
