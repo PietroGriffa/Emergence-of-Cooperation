@@ -16,7 +16,8 @@ close all
 
 %% Definition of problem 
 
-param.population = 10000;       % total population
+N = 100;
+param.population = N^2;       % total population
 param.p_loners      = 0.45;     % initial percentage of loners
 param.p_cooperators = 0.3;      % initial percentage of cooperators
 param.p_defectors   = 1-param.p_cooperators-param.p_loners; % initial percentage of defectors
@@ -28,8 +29,25 @@ param.N = 500;   % number of people offered to play the game
 
 param.r = 3;
 
+%% Initial composition 
+
+game_composition = rand(N,N);   % generate random composition
+game_composition =  0.5*(game_composition < param.p_loners) + ...
+    (game_composition > 1-param.p_cooperators);
+%   0.5 for loners
+%   0   for defectors
+%   1   for cooperators
+
+pop_plot = figure('Name','Population','NumberTitle','off','Position',[1200 100 600 600]);
+pcolor(game_composition);
+title('Population')
+axis equal
+colorbar
+axis off
+hold on
+
 %% Play one game
-game = play_game(param)     % print out the results
+%game = play_game(param)     % print out the results
 
 %% Game
 function game = play_game(param)
