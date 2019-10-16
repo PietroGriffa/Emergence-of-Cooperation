@@ -16,8 +16,8 @@ close all
 
 %% Definition of problem 
 
-N = 100;
-param.population = N^2;       % total population
+n = 100;
+param.population = n^2;       % total population
 param.p_loners      = 0.45;     % initial percentage of loners
 param.p_cooperators = 0.3;      % initial percentage of cooperators
 param.p_defectors   = 1-param.p_cooperators-param.p_loners; % initial percentage of defectors
@@ -32,7 +32,7 @@ param.r = 3;
 %% Initial composition 
 
 game_composition = rand(N,N);   % generate random composition
-game_composition =  0.5*(game_composition < param.p_loners) + ...
+param.game_composition =  0.5*(game_composition < param.p_loners) + ...
     (game_composition > 1-param.p_cooperators);
 %   0.5 for loners
 %   0   for defectors
@@ -45,6 +45,7 @@ axis equal
 colorbar
 axis off
 hold on
+
 
 %% Play one game
 %game = play_game(param)     % print out the results
@@ -60,7 +61,11 @@ function game = play_game(param)
 % NOTE: the sampling mechanism implemented here works only for the first
 % game played --> must implement a smarter way!
 
-game_composition = rand(1,param.N);             
+game_composition = rand(1,param.N);
+
+idx = randi(param.population,param.N);
+partecipants = param.game_composition(idx);
+
 loners = (game_composition < param.p_loners);   % select loners
 game.n_l = nnz(loners);                         % count loners
 players = game_composition(loners~=1);          % eliminate loners from game
