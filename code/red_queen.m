@@ -28,6 +28,7 @@ world.n_defectors   = world.population*world.p_defectors;
 world.n_loners      = world.population*world.p_loners;
 
 world.N = 500;   % number of people offered to play the game
+world.last_game = zeros(2,world.N); % as long no game is played, there is no player
 
 world.r = 3;
 % sigma should be > 0 and < r-1 ==> better to loner than in a group of
@@ -64,6 +65,7 @@ pause(1)    % want to wait to see correct update of plots
 %% Play one game
 [game, world] = play_game(world)     % print out the results
 
+plot_pop(world)
 plot_payoff(world);
 
 %% Game
@@ -78,7 +80,9 @@ function [game, world] = play_game(world)
 % game played --> must implement a smarter way!
 
 % select N people to play the game
-idx = randi(world.population,[1 world.N]);          
+idx = randi(world.population,[1 world.N]);
+world.last_game = [ mod(idx,sqrt(world.population))
+                    ceil(idx/sqrt(world.population))]; % partecipants in most recent game
 partecipants = world.pop_composition(idx);
 
 game.payoff = zeros(1,world.N);     % initialize payoff at zero for everyone
@@ -150,17 +154,21 @@ if isempty(findobj('type','figure','name','Population'))
     pop_plot = figure('Name','Population','NumberTitle','off','Position',[1200 100 600 600]);
     title('Population')
     axis equal
-    colorbar
     axis off
-    hold on
 else
     % If figure is already initializated, it calls it as the most recent
     % one
     figure(findobj('type','figure','name','Population'));
 end
 pcolor(world.pop_composition);
+colorbar
+hold on
+if ~isempty(world.last_game)
+    plot(world.last_game(2,:)+0.5,world.last_game(1,:)+0.5,'or');
+end
+hold off
 drawnow;
-pause(.3);
+pause(.2);
     
 end     % end plot_pop
 
@@ -171,16 +179,20 @@ if isempty(findobj('type','figure','name','Payoff'))
     pop_plot = figure('Name','Payoff','NumberTitle','off','Position',[300 100 600 600]);
     title('Payoff')
     axis equal
-    colorbar
     axis off
-    hold on
 else
     % If figure is already initializated, it calls it as the most recent
     % one
     figure(findobj('type','figure','name','Payoff'));
 end
 pcolor(world.payoff);
+colorbar
+hold on
+if ~isempty(world.last_game)
+    plot(world.last_game(2,:)+0.5,world.last_game(1,:)+0.5,'or');
+end
+hold off
 drawnow;
-pause(.3);
+pause(.2);
     
 end     % end plot_payoff
