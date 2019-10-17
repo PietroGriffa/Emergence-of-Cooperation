@@ -16,6 +16,8 @@ close all
 
 %% Definition of problem 
 
+%global world
+
 n = 100;
 world.population = n^2;       % total population
 world.p_loners      = 0.45;     % initial percentage of loners
@@ -49,12 +51,20 @@ plot_pop(world);
 
 % Initialize all starting payoff at zero
 world.payoff = zeros(n,n);
+%
+% an alternative may be initializate all the payoffs to sigma, and change
+% only the payoffs of cooperators and defectors
+%
+% Plot payoffs
+plot_payoff(world);
 
 
-
+pause(1)    % want to wait to see correct update of plots
 
 %% Play one game
 [game, world] = play_game(world)     % print out the results
+
+plot_payoff(world);
 
 %% Game
 function [game, world] = play_game(world)
@@ -136,6 +146,7 @@ end % end function
 function [] = plot_pop(world)
 
 if isempty(findobj('type','figure','name','Population'))
+    % If figure is not initializated yet, do it
     pop_plot = figure('Name','Population','NumberTitle','off','Position',[1200 100 600 600]);
     title('Population')
     axis equal
@@ -143,9 +154,33 @@ if isempty(findobj('type','figure','name','Population'))
     axis off
     hold on
 else
-    figure(pop_plot);
+    % If figure is already initializated, it calls it as the most recent
+    % one
+    figure(findobj('type','figure','name','Population'));
 end
 pcolor(world.pop_composition);
+drawnow;
+pause(.3);
     
+end     % end plot_pop
 
+function [] = plot_payoff(world)
+
+if isempty(findobj('type','figure','name','Payoff'))
+    % If figure is not initializated yet, do it
+    pop_plot = figure('Name','Payoff','NumberTitle','off','Position',[300 100 600 600]);
+    title('Payoff')
+    axis equal
+    colorbar
+    axis off
+    hold on
+else
+    % If figure is already initializated, it calls it as the most recent
+    % one
+    figure(findobj('type','figure','name','Payoff'));
 end
+pcolor(world.payoff);
+drawnow;
+pause(.3);
+    
+end     % end plot_payoff
