@@ -17,77 +17,90 @@ close all
 %% Definition of problem 
 
 n = 100;
-param.population = n^2;       % total population
-param.p_loners      = 0.45;     % initial percentage of loners
-param.p_cooperators = 0.3;      % initial percentage of cooperators
-param.p_defectors   = 1-param.p_cooperators-param.p_loners; % initial percentage of defectors
-param.n_cooperators = param.population*param.p_cooperators;
-param.n_defectors   = param.population*param.p_defectors;
-param.n_loners      = param.population*param.p_loners;
+world.population = n^2;       % total population
+world.p_loners      = 0.45;     % initial percentage of loners
+world.p_cooperators = 0.3;      % initial percentage of cooperators
+world.p_defectors   = 1-world.p_cooperators-world.p_loners; % initial percentage of defectors
+world.n_cooperators = world.population*world.p_cooperators;
+world.n_defectors   = world.population*world.p_defectors;
+world.n_loners      = world.population*world.p_loners;
 
-param.N = 500;   % number of people offered to play the game
+world.N = 500;   % number of people offered to play the game
 
-param.r = 3;
+world.r = 3;
+% sigma should be > 0 and < r-1 ==> better to loner than in a group of
+% defectors; but better still be in a group of cooperators.
+world.sigma = 0.75*(world.r-1);     % payoff for loners
 
 %% Initial composition 
 
-game_composition = rand(N,N);   % generate random composition
-param.game_composition =  0.5*(game_composition < param.p_loners) + ...
-    (game_composition > 1-param.p_cooperators);
+% Initialize a random initial population
+pop_composition = rand(n,n);   % generate random composition
+world.pop_composition =  0.5*(pop_composition < world.p_loners) + ...
+    (pop_composition > 1-world.p_cooperators);
+%
 %   0.5 for loners
 %   0   for defectors
 %   1   for cooperators
+%
+% Plot population composition
+plot_pop(world);
 
-pop_plot = figure('Name','Population','NumberTitle','off','Position',[1200 100 600 600]);
-pcolor(game_composition);
-title('Population')
-axis equal
-colorbar
-axis off
-hold on
+
+% Initialize all starting payoff at zero
+world.payoff = zeros(n,n);
+
+
 
 
 %% Play one game
-%game = play_game(param)     % print out the results
+[game, world] = play_game(world)     % print out the results
 
 %% Game
-function game = play_game(param)
+function [game, world] = play_game(world)
 %
 % Function to simulate one game.
-%   Inputs: param structure
+%   Inputs: world structure
 %   Output: game structure
 %
 
 % NOTE: the sampling mechanism implemented here works only for the first
 % game played --> must implement a smarter way!
 
-game_composition = rand(1,param.N);
+% select N people to play the game
+idx = randi(world.population,[1 world.N]);          
+partecipants = world.pop_composition(idx);
 
-idx = randi(param.population,param.N);
-partecipants = param.game_composition(idx);
+game.payoff = zeros(1,world.N);     % initialize payoff at zero for everyone
 
-loners = (game_composition < param.p_loners);   % select loners
-game.n_l = nnz(loners);                         % count loners
-players = game_composition(loners~=1);          % eliminate loners from game
-game.S = length(players);                       % number of players in current game
-if game.S <= 1
+defectors   = partecipants==0 ;     % identify defectors
+loners      = partecipants==0.5 ;   % identify loners
+cooperators = partecipants==1 ;     % identify cooperators
+players = defectors+cooperators;   % loners are not playing
+
+game.n_l = sum(loners);  % number of loners in the game
+game.n_c = sum(cooperators);    % number of cooperators in the game
+game.n_d = world.N-game.n_l-game.n_c;     % number of defectors in the game
+game.S = game.n_d + game.n_c;       % number of players
+
+% DEBUG
+if sum(players)~=game.S          % extra check 
+    disp('Something went wrong');
+end
+
+if game.S <= 1      % if there is only one non-loner, this is considered as loner too
     disp('All loners, no players for the game');
+    game.payoff = world.sigma*ones(world.N);  % everyone gets teh loners' payoff
 else
-    cooperators = (game_composition > param.p_loners+param.p_defectors);    % select cooperators
-    game.n_c = nnz(cooperators);                % number of cooperators in current game
-
-    % r must be > 1 ==> if all cooperate, they are better off than if all
-    % defect.
-    game.r = param.r;   % for now it is set externally, then we can change it
-
-    % sigma should be > 0 and < r-1 ==> betetr to loner than in a group of
-    % defectors; but better still be in a group of cooperators.
-    game.sigma = 0.75*(game.r-1);           % payoff for loners
-    game.Pd = game.r*game.n_c/game.S;       % payoff for defectors
+    game.Pd = world.r*game.n_c/game.S;       % payoff for defectors
     game.Pc = game.Pd-1;                    % payoff for cooperators
-    game.payoff = game.Pd*ones(param.N);    
-    game.payoff(loners) = game.sigma;
-    game.payoff(cooperators) = game.Pc;     % distribution of playoffs between all players
+    
+    % Set payoffs
+    game.payoff(defectors) = game.Pd;
+    game.payoff(loners) = world.sigma;
+    game.payoff(cooperators) = game.Pc;
+    
+    world.payoff(idx) = game.payoff;        % update distribution of payoffs in entire population
     
     % It can be found that the medium payoff for cooperators is better than
     % the one for defectors (Pc/nc)>(Pd/nd) if nc is between these two
@@ -101,14 +114,14 @@ else
     % medium payoff.
     if game.Pc/game.n_c >= game.Pd/(game.S-game.n_c)
         game.winners = 'cooperators';
-        if game.sigma/game.n_l >= game.Pc/game.n_c
+        if world.sigma/game.n_l >= game.Pc/game.n_c
             game.best_payoff = 'loners';
         else 
             game.best_payoff = 'cooperators';
         end
     else
         game.winners = 'defectors';
-        if game.sigma/game.n_l >= game.Pc/game.n_c
+        if world.sigma/game.n_l >= game.Pc/game.n_c
             game.best_payoff = 'loners';
         else 
             game.best_payoff = 'defectors';
@@ -119,4 +132,20 @@ end
 
 end % end function
 
+%% Plots
+function [] = plot_pop(world)
 
+if isempty(findobj('type','figure','name','Population'))
+    pop_plot = figure('Name','Population','NumberTitle','off','Position',[1200 100 600 600]);
+    title('Population')
+    axis equal
+    colorbar
+    axis off
+    hold on
+else
+    figure(pop_plot);
+end
+pcolor(world.pop_composition);
+    
+
+end
