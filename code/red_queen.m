@@ -68,16 +68,14 @@ pause(1)    % want to wait to see correct update of plots
 plot_pop(world)
 plot_payoff(world);
 
-%% Game
+%==========================================================================
+%% FUNCTIONS
 function [game, world] = play_game(world)
 %
 % Function to simulate one game.
 %   Inputs: world structure
 %   Output: game structure
 %
-
-% NOTE: the sampling mechanism implemented here works only for the first
-% game played --> must implement a smarter way!
 
 % select N people to play the game
 idx = randi(world.population,[1 world.N]);
@@ -146,7 +144,6 @@ end
 
 end % end function
 
-%% Plots
 function [] = plot_pop(world)
 
 if isempty(findobj('type','figure','name','Population'))
