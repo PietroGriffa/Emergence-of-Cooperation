@@ -97,7 +97,8 @@ function [game, world] = play_game(world)
 %
 
 % select N people to play the game
-idx = randi(world.population,[1 world.N]);
+%idx = randi(world.population,[1 world.N]);
+idx = randperm(world.population,world.N)
 world.last_game = [ mod(idx,sqrt(world.population))
                     ceil(idx/sqrt(world.population))]; % partecipants in most recent game
 partecipants = world.pop_composition(idx);
