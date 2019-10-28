@@ -1,14 +1,18 @@
-function [] = pop_plot(world)
+function [] = pop_plot(____)
 % Function that plots the population grid
 %
 % Input:
-%   - world params (structure)
+%   - _____
 %
 % Color legend:
 %   - cooperators: ____
 %   - defectors: ____
 %   - loners: ____
 %   - empty space: ____
+
+
+% !!! This is the old function, must be changed depending on what it takes
+% as input !!!
 
 if isempty(findobj('type','figure','name','Population'))
     % If figure is not initializated yet, do it

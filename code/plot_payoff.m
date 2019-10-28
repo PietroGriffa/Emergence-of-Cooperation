@@ -1,9 +1,13 @@
-function [] = pop_payoff(world)
+function [] = pop_payoff(___)
 % Function that plots the payoffs grid
 %
 % Input:
-%   - world params (structure)
+%   - ___
 %
+
+% !!! This is the old function, must be changed depending on what it takes
+% as input !!!
+
 
 if isempty(findobj('type','figure','name','Payoff'))
     % If figure is not initializated yet, do it
