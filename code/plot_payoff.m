@@ -4,6 +4,9 @@ function [] = pop_payoff(___)
 % Input:
 %   - ___
 %
+% Output:
+%   - grid
+%
 
 % !!! This is the old function, must be changed depending on what it takes
 % as input !!!

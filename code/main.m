@@ -30,3 +30,6 @@ world.imitation_strat = ___;    % imitation strategy
 % Paremeters for 'migration' game
 world.noise = ___;              % noise type
 world.M = ___;                  % neighbourhood dimensions 
+
+%% Initialize 
+% Call init function

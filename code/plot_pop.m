@@ -4,6 +4,9 @@ function [] = pop_plot(____)
 % Input:
 %   - _____
 %
+% Output:
+%   - grid
+%
 % Color legend:
 %   - cooperators: ____
 %   - defectors: ____
