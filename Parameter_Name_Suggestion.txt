@@ -1,7 +1,7 @@
 // all parameters from "Red Queen" and "Self Organization and Emergence..."
 
 L Grid size, L^2 squares in grid
-dt Time step		//this isn't actually needed, tight?
+dt Time step		//this isn't actually needed, right?
 t # Iterations   	//"iteration" equivalent to "game"
 
 p_c % cooperators
@@ -27,11 +27,11 @@ q1 strategy mutations
 q2 random relocations, 
 q3 combination of q1 and q2
 
-##Prisoners Dilemma parameters: 
+Prisoners Dilemma parameters: 
 	Pij Payoff
 	P11=R, P12=S, P21=t, P22=P, T>R>P>S
 	Pi Overall Payoff 	//total payoff of a focal player after playing with all of his interaction partners
-##Red Queen parameters: 
+Red Queen parameters: 
 	r
 	sigma
 	
