@@ -33,6 +33,9 @@ switch world.typeOfGame
         % (We could alternatively keep some free space and simply set the
         % motion to 0)
         
+        %world.pop_composition = pop_composition
+        
+        
     case 'migration'
         
         % Name of the function to call later to simulate the game

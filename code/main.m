@@ -33,3 +33,9 @@ world.M = ___;                  % neighbourhood dimensions
 
 %% Initialize 
 % Call init function
+init(world)
+
+for i = 1:60
+    
+    game()
+end
