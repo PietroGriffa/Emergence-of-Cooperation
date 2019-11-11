@@ -3,7 +3,7 @@
 % Here is where all the functions should be called
 
 
-%NOTATION
+%NOTATION:
     % [a,b] => values between a and b possible
     % {a,b,c,d} => any of the values in the brackets possible
     
@@ -101,9 +101,12 @@ if world.migration == true
     % with the highest expected payoff
     
     migration.migration = true;
-    migration.imitation = true;
+    migration.p_migration = 0.5;    % probability to imitate better strategies
     
-    migration.neigh = 1;
+    migration.imitation = true;
+    migration.p_imitation = 0.5;    % probability to migrate to more favorable areas
+    
+    migration.m = 1;    % neighborhood dimension
     
     % move focal player to said square
 end
