@@ -18,17 +18,17 @@ world.L = 5; % sidelength of the board => LxL players
 
 
 % Game Type
-world.migration = false;     % input for game whether there should be migration {true,false}
-world.loners = true;        % or loners  {true,false}
+world.migration = true;     % input for game whether there should be migration {true,false}
+world.loners = false;        % or loners  {true,false}
 world.noise = false;         % or noise  {true,false}
-world.typeOfGame = 'red_queen';  % {'red_queen', false}
+world.typeOfGame = 'migration';  % {'red_queen', false}
 world.rounds = 5; %amount of rounds to be played
 
 % Player distribution
 world.density = 0.75; % what percentage of the grid should be populated [0,1], Attention: if density is 1, migration is not possible
 world.n = round(world.density * (world.L)^2); %total number of players, rounds as we can't have non integer amount of players
 world.N = 5;         % number of people offered to play the game
-world.p_cooperators = 0.2;          % percentage of cooperators
+world.p_cooperators = 0.4;          % percentage of cooperators
 world.p_loners =   0.2;    % percentage of loners
 
 if world.loners == false  %if we have loners disabled, we ignore the value above and set it to 0
@@ -51,11 +51,13 @@ world.noiseM_p = 0;          % how likely is a player to randomly relocate [0,1]
 world.r = 1.5;
 if world.loners == true
     world.sigma = 0.75*(world.r-1);
-else    % Prisoners Dilemma, T < R < P < S
-    world.T = 5;
-    world.R = 3;
-    world.P = 1;
-    world.S = 0;
+else    % Prisoners Dilemma, T > R > P > S
+    T = 5;
+    R = 3;
+    % loners should go here 
+    P = 1;
+    S = 0.5;
+    world.payoff_mat = [R S; T P]
 end
 
 % Paremeters for 'red_queen' game
@@ -79,14 +81,6 @@ end
     
 %% Initialize 
 % Call init function
-<<<<<<< HEAD
-init(world)
-
-for i = 1:60
-    
-    game()
-end
-=======
 [world, game] = init(world);
 %disp(world.pop_composition); %for checks
 %done
@@ -106,6 +100,11 @@ if world.migration == true
     % play test iterations within mobility Range to find the free square
     % with the highest expected payoff
     
+    migration.migration = true;
+    migration.imitation = true;
+    
+    migration.neigh = 1;
+    
     % move focal player to said square
 end
 % let players play game in their Neuman Neighborhood
@@ -120,4 +119,3 @@ end
 % end
 %
 
->>>>>>> d3c9ca360a9f45f062be7ecb91b33aa08f17b85d

@@ -28,7 +28,7 @@ slots(slots_permutation) = 1; %sets populated slots to 1, 0 are emty slots
 pop_comp = rand(world.L,world.L); % generate random composition in LxL grid
 world.composition = 0.5*((pop_comp < world.p_loners) & (slots == 1)) + ...
     1*((pop_comp > 1- world.p_cooperators) & (slots == 1)) + ...
-    -1*((pop_comp < 1-world.p_cooperators) & (pop_comp > world.p_loners) & (slots == 1))+ ...
+    2*((pop_comp < 1-world.p_cooperators) & (pop_comp > world.p_loners) & (slots == 1))+ ...
     0*(slots == 0);
 
 
@@ -51,7 +51,7 @@ world.n_defectors = sum(world.composition(:)==0);
 
 %% Initialze Payoff Matrix
 
-game.payoff = zeros(world.L);  % payoff now in an identical grid as the composition
+world.payoff = zeros(world.L);  % payoff now in an identical grid as the composition
 % there are no payoffs before the first game has been played
 
 
@@ -103,14 +103,7 @@ disp(game.payoff)
         % (We could alternatively keep some free space and simply set the
         % motion to 0)
         
-<<<<<<< HEAD
-        %world.pop_composition = pop_composition
-        
-        
-    case 'migration'
-=======
 %    case 'migration'
->>>>>>> d3c9ca360a9f45f062be7ecb91b33aa08f17b85d
         
         % Name of the function to call later to simulate the game
 %        game = str2fun('<NAME OF THE FUCNTION>')
