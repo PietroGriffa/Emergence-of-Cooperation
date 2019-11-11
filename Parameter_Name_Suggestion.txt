@@ -1,0 +1,44 @@
+// all parameters from "Red Queen" and "Self Organization and Emergence..."
+
+L Grid size, L^2 squares in grid
+dt Time step		//this isn't actually needed, right?
+t # Iterations   	//"iteration" equivalent to "game"
+
+p_c % cooperators
+p_d % defectors
+p_l % loners
+
+n_c # cooperators
+n_d # defectors
+n_l # loners
+
+Pc payoff cooperators
+Pd payoff defectors
+Pl payoff loners, = sigma in Red Queen case
+
+n # Players, n inbetween 0 and L^2
+
+m # Interaction Partners, m = {4,8}
+rho Density of Players, rho = n/(L^2)
+M Mobility Range, (M+1)x(M+1) grid of movement
+N # Focal Players		//number of players to be randomly chosen in each game
+S # Focal Players without loners 	//the focal players that will actually play a game
+q1 strategy mutations
+q2 random relocations, 
+q3 combination of q1 and q2
+
+Prisoners Dilemma parameters: 
+	Pij Payoff
+	P11=R, P12=S, P21=t, P22=P, T>R>P>S
+	Pi Overall Payoff 	//total payoff of a focal player after playing with all of his interaction partners
+Red Queen parameters: 
+	r
+	sigma
+	
+	
+
+
+
+
+% => percentage
+# => number of
