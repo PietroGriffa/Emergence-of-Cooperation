@@ -40,7 +40,7 @@ Let's think about a better composition for the world structure:
 - type of game
 - size of population
 - #/% of cooperators
-- #/% of defectors
+- #/% of defectors 
 - #/% of loners
 - size of free space
 - imitation strategy
@@ -105,7 +105,7 @@ partecipants = world.pop_composition(idx);
 
 game.payoff = zeros(1,world.N);     % initialize payoff at zero for everyone
 
-defectors   = partecipants==0 ;     % identify defectors
+defectors   = partecipants==0      % identify defectors
 loners      = partecipants==0.5 ;   % identify loners
 cooperators = partecipants==1 ;     % identify cooperators
 players = defectors+cooperators;   % loners are not playing
@@ -210,6 +210,6 @@ if ~isempty(world.last_game)
 end
 hold off
 drawnow;
-pause(.2);
+pause(.2);  
     
 end     % end plot_payoff

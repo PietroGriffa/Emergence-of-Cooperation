@@ -14,7 +14,7 @@ clear all
 %% World parametrs structure
 
 % Grid
-world.L = 5; % sidelength of the board => LxL players
+world.L = 6; % sidelength of the board => LxL players
 
 
 % Game Type
@@ -42,7 +42,7 @@ world.n_loners = world.p_loners*world.n;
 
         
 % Game Type specific parameters
-world.M = 8;           % range of mobility for focal players => (M+1)x(M+1) grid with focal player in the center
+world.M = 0;           % range of mobility for focal players => (M+1)x(M+1) grid with focal player in the center
 world.noiseS_p = 0;          % how likely is a player to randomly switch strategys [0,1], Noise 1
 world.noiseM_p = 0;          % how likely is a player to randomly relocate [0,1], Noise 2
                          % Noise 3 would be both noise1 and noise2 applied
@@ -87,8 +87,8 @@ end
 %% Run Game
 
 
-[world, game] = play_round(world, game);
-
+[world,game] = playround(world.
+% randomly choose N focal players
 %for n = 1:world.rounds
 %    [world,game] = play_round(world, game);
 %    plot_pop(world,game);

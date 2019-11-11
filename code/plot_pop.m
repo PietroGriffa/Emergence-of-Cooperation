@@ -1,4 +1,4 @@
-function [] = pop_plot(____)
+function [] = plot_pop(world)
 % Function that plots the population grid
 %
 % Input:
