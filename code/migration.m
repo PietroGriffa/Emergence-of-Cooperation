@@ -30,11 +30,22 @@ cell_players = mat2cell(mat_players,[ones(1,size(mat_players,1))],[size(mat_play
 game_fun =@(p_idx) neighborhood_watch(world, migration,p_idx);
 last_game.payoffs = cellfun(game_fun,cell_players);
 
+% Update map of payoffs
+% TODO
+
+
+%% Imitation and migration
+
+% NOTE: the order matters, the player can first choose to imitate more
+% succesful neighbors, then it can observe if in his mobility range he can
+% move to a more profitable area.
+
 % Implement imitation policy
 if migration.imitation
     % TODO
     
-    % If imitating another startegy set:
+    
+    % If imitating another strategy set:
     %   - last_game.imitated(player) = True ; False otherwise
 end
 

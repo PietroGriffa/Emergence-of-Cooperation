@@ -107,6 +107,7 @@ if world.migration == true
     migration.p_imitation = 0.5;    % probability to migrate to more favorable areas
     
     migration.m = 1;    % neighborhood dimension
+    migration.M = 2;    % mobility range
     
     % move focal player to said square
 end
