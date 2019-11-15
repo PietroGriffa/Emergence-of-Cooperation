@@ -43,20 +43,20 @@ last_game.payoffs = cellfun(game_fun,cell_players);
 % Implement imitation policy
 if migration.imitation
     % TODO
-    
-    
+        
     % If imitating another strategy set:
-    %   - last_game.imitated(player) = True ; False otherwise
+    %   - last_game.imitated(player) = true ; false otherwise
 end
 
 % Implement migration policy
 if migration.migration
-    % TODO
+    
+    migration_fun =@(p_idx) success_driven_migration(world,migration,p_idx);
+    migration = cellfun(migration_fun, cell_players);
     
     % If imitating another startegy set:
-    %   - last_game.migrated(player) = True ; False otherwise
+    %   - last_game.migrated(player) = true ; false otherwise
 end
 
-% QUESTION: can a player both imitate and migrate?
     
 end
