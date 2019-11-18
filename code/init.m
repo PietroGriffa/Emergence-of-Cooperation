@@ -21,18 +21,10 @@ global world
 
 %% Initialize Population Matrix
 
-% create population matrix to keep track of which slots are emty or not
-slots = zeros(world.L,world.L);  %creates blank LxL grid
-slots_permutation = randperm(world.L*world.L, world.n); %chooses n different slot indexes to be populated
-slots(slots_permutation) = 1; %sets populated slots to 1, 0 are emty slots
-
-
 pop_comp = rand(world.L,world.L); % generate random composition in LxL grid
-world.composition = 0.5*((pop_comp < world.p_loners) & (slots == 1)) + ...
-    1*((pop_comp > 1- world.p_cooperators) & (slots == 1)) + ...
-    2*((pop_comp < 1-world.p_cooperators) & (pop_comp > world.p_loners) & (slots == 1))+ ...
-    0*(slots == 0);
-
+world.composition = 1*(pop_comp > 1-world.p_cooperators) + ...
+    2*((pop_comp < 1-world.p_cooperators) & (pop_comp > 1-world.density))+ ...
+    0*(pop_comp < 1-world.density);
 
 % sets only the populated slots (1es in "slots") and only if the random
 % value is in the range of the percentile for each strategy given in main

@@ -30,10 +30,11 @@ mat_players = [row col];
 cell_players = mat2cell(mat_players,[ones(1,size(mat_players,1))],[size(mat_players,2)]);
 
 % Compute new payoffs for players (and update payoffs map)
-last_game.payoffs = cellfun(neighborhood_watch,cell_players);
+neighborhood_watch_fun =@(p) neighborhood_watch(p);
+last_game.payoffs = cellfun(neighborhood_watch_fun,cell_players);
 
 % Update map of payoffs
-% TODO
+% world.payoff  = 
 
 
 %% Imitation and migration
@@ -41,8 +42,8 @@ last_game.payoffs = cellfun(neighborhood_watch,cell_players);
 % Implement migration policy
 if game.migration
     
-    %migration_fun =@(p_idx) success_driven_migration(world,migration,p_idx);
-    game = cellfun(success_driven_migration, cell_players);
+    migration_fun =@(p_cord) success_driven_migration(p_cord);
+    migration_step = cellfun(migration_fun, cell_players);
     
     % If imitating another startegy set:
     %   - last_game.migrated(player) = true ; false otherwise
@@ -50,8 +51,10 @@ end
 
 % Implement imitation policy
 if game.imitation
-    % TODO
-        
+    
+    imitation_fun = @(p_cord) imitate(p_cord);
+    imitation_step = cellfun(imitate, cell_players);
+    
     % If imitating another strategy set:
     %   - last_game.imitated(player) = true ; false otherwise
 end

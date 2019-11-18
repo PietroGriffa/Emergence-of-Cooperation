@@ -20,7 +20,7 @@ else
     % this for reference for these first lines.
     
     v = [-game.M:1:game.M];
-    combs = unique(sort(nchoosek(repmat(v,1,k),k),2),'rows');
+    combs = unique(sort(nchoosek(repmat(v,1,2),2),2),'rows');
     
     % NOTE: in this case we don't want to remove the central point, as it
     % may be not convenient to migrate
@@ -31,15 +31,20 @@ else
     % the focal player (in case of two free slots being equally promising, we
     % want to choose the closest one)
     closeness = vecnorm((player_cord-to_check)');
-    [,order] = sort(closeness);
+    [useless,order] = sort(closeness);
     to_check = to_check(order);
+    
+    negative_idxs = to_check<=0;
+    to_check(negative_idxs) = world.L - to_check(negative_idxs);
+    too_large_idxs = to_check>world.L;
+    to_check(too_large_idxs) = -world.L + to_check(too_large_idxs);
 
     rows = to_check(:,1);       columns = to_check(:,2);
     idx2check = sub2ind(size(world.composition),rows,columns);  % switch form coordinates to indices
 
     % Identify free slots
     free_slots = world.composition(idx2check);  % strategy of neighboring player
-    free_slots = neighbors_strategy(free_slots==0); % identify only free slots
+    free_slots = free_slots(free_slots==0); % identify only free slots
     
     if isempty(free_slots)
         % Can't migrate since there are no free slots within the mobility
@@ -55,7 +60,7 @@ else
         % compare expected payoff with the current one: if higher move the new slot
         slots_cell = mat2cell(free_slots,ones(1,size(free_slots,1)),...
             ones(1,size(free_slots,2))); % convert to cell to apply cellfun
-        %game_fun =@(slot_idx) neighborhood_watch(world, game,slot_idx);
+        game_fun =@(slot_idx) neighborhood_watch(slot_idx);
         expectation = cellfun(game_fun,slots_cell);
         % NOTE: The vector should already be ordered in ascending order starting
         % from the closest slots to the furthest ones
@@ -69,8 +74,9 @@ else
 
         % Best slot to migrate to:
         migrate_to_idx = free_slots(best_slot);     % as index
-        migrate_to_cord = ind2sub(size(world.composition),migrate_to_idx);  % as coordinates
-
+        [a b] = ind2sub(size(world.composition),migrate_to_idx);  % as coordinates
+        migrate_to_cord = [a b];
+        
         % Other statistics:
         distance =  norm(player_cord-migrate_to_cord);  % distance from orignial position
         convenience = best_expectation-world.payoff_mat(player_cord);   % how convenient would be to migrate
