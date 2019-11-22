@@ -37,43 +37,69 @@ world.n_defectors = world.p_defectors*world.n;
 world.n_loners = world.p_loners*world.n;
 
 % Strategy Parameters
-T = 5;  R = 3;  P = 1;  S = 0.5;
-world.payoff_mat = [R S; T P];
+world.r = 1.5;
 
+    T = 5;
+    R = 3;
+    % loners should go here 
+    P = 1;
+    S = 0.5;
+    world.payoff_mat = [R S; T P]
+
+% Paremeters for 'red_queen' game
+world.imitation_strat = 0;    % imitation strategy
+% is the strategy change outlined in the Red Queen paper not basically
+% noise 1?
 
 % DEBUG
 if and(world.density == 1, world.migration == true)
-    error("ERROR: migration is not possible without free fields (M = 1)")
+    disp("ERROR: migration is not possible without free fields (M = 1)")
+    return
 end
 
 if (world.N > world.n)
-   error("ERROR: You can't choose more players to play than you have! (N>n)")
+   disp("ERROR: You can't choose more players to play than you have! (N>n)")
+   return
 end
 
+    
+    
+    
 %% Initialize 
 % Call init function
-init();
+[game] = init();
+%disp(world.pop_composition); %for checks
+%done
+
 
 %% Run Game
+
+
+%[world, game] = play_round(world, game);
+
+%for n = 1:world.rounds
+%    [world,game] = play_round(world, game);
+%    plot_pop(world,game);
+%end
+  
 
 % play test iterations within mobility Range to find the free square
 % with the highest expected payoff
 
-global game
+global migration
 
-game.migration = true;
-game.p_migration = 0.5;    % probability to imitate better strategies
+migration.migration = true;
+migration.p_migration = 0.5;    % probability to imitate better strategies
 
-game.imitation = true;
-game.p_imitation = 0.5;    % probability to migrate to more favorable areas
+migration.imitation = true;
+migration.p_imitation = 0.5;    % probability to migrate to more favorable areas
 
-game.m = 1;    % neighborhood dimension
-game.M = 2;    % mobility range
+migration.m = 1;    % neighborhood dimension
+migration.M = 2;    % mobility range
 
 % move focal player to said square
 
 % let players play game in their Neuman Neighborhood
-last_game = migration();
 
 %
 % adapt strategy of neighbor if overall payoff of neighbor was higher than

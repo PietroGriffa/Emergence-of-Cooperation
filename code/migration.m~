@@ -15,7 +15,7 @@ function [last_game] = migration()
 %   - last_game: structure that summarizes teh last game played
 
 global world
-global game
+global migration
 
 populatedslots = find(world.composition);           % identify populated slots
 focal_idx = randsample(populatedslots, world.N);    % sample players from population
@@ -30,31 +30,28 @@ mat_players = [row col];
 cell_players = mat2cell(mat_players,[ones(1,size(mat_players,1))],[size(mat_players,2)]);
 
 % Compute new payoffs for players (and update payoffs map)
-neighborhood_watch_fun =@(p) neighborhood_watch(p);
-last_game.payoffs = cellfun(neighborhood_watch_fun,cell_players);
+last_game.payoffs = cellfun(neighborhood_watch,cell_players);
 
 % Update map of payoffs
-% world.payoff  = 
+% TODO
 
 
 %% Imitation and migration
 
 % Implement migration policy
-if game.migration
+if migration.migration
     
-    migration_fun =@(p_cord) success_driven_migration(p_cord);
-    migration_step = cellfun(migration_fun, cell_players);
+    migration_fun =@(p_idx) success_driven_migration(world,migration,p_idx);
+    migration = cellfun(success_driven_migration, cell_players);
     
     % If imitating another startegy set:
     %   - last_game.migrated(player) = true ; false otherwise
 end
 
 % Implement imitation policy
-if game.imitation
-    
-    imitation_fun = @(p_cord) imitate(p_cord);
-    imitation_step = cellfun(imitate, cell_players);
-    
+if migration.imitation
+    % TODO
+        
     % If imitating another strategy set:
     %   - last_game.imitated(player) = true ; false otherwise
 end
