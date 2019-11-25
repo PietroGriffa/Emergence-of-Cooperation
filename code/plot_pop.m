@@ -28,11 +28,11 @@ else
     % one
     figure(findobj('type','figure','name','Population'));
 end
-pcolor(world.pop_composition);
+pcolor(world.composition);
 colorbar
 hold on
-if ~isempty(world.last_game)
-    plot(world.last_game(2,:)+0.5,world.last_game(1,:)+0.5,'or');
+if ~isempty(world.composition)
+    plot(world.composition(2,:)+0.5,world.composition(1,:)+0.5,'or');
 end
 hold off
 drawnow;

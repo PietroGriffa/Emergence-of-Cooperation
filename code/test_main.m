@@ -7,8 +7,8 @@ clc
 
 %% test structure
 
-test.a = 1;
-test.b = 2; % each time the struct is chaneged it prints out the entire thin => ";"
+a = 1;
+ % each time the struct is chaneged it prints out the entire thin => ";"
 %test_fun(test);  % passes entire struct to function
 %[test.c, test.d] = test_fun(test);
 %f = game.c
@@ -35,9 +35,6 @@ test.b = 2; % each time the struct is chaneged it prints out the entire thin => 
 %A(5) = 2;
 %A([3 5]); % gets values of indexes 3 and 5
 
-A = [ 1 2 3 4 5;
-      2 3 4 5 6;
-      3 4 5 6 7;
-      4 5 6 7 8];
-disp(A([ 1 2 3],[ 4 5 1]))
+a = magic(10,2)
+cell =
 

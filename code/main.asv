@@ -12,29 +12,29 @@ clc
 global world
 
 % Grid
-world.L = 50; % sidelength of the board
+world.L = 10; % sidelength of the board
 
 % Game Type
 world.noise = false;         % or noise  {true,false}
 
-world.rounds = 200; % amount of rounds to be played
+world.rounds = 100; % amount of rounds to be played
 
 % Player distribution
-world.density = 0.5; % what percentage of the grid should be populated [0,1], Attention: if density is 1, migration is not possible
+world.density = 0.; % what percentage of the grid should be populated [0,1], Attention: if density is 1, migration is not possible
 world.n = round(world.density * (world.L)^2); %total number of players, rounds as we can't have non integer amount of players
-world.N = 100;         % number of people offered to play the game
+world.N = 40;         % number of people offered to play the game
 world.p_cooperators = 0.5;          % percentage of cooperators
 
 world.p_defectors = 1 - world.p_cooperators;            % percentage of defectors
 
 % Strategy Parameters
-T = 8;  R = 3;  P = 1;  S = 0.5;
+T = 5;  R = 3;  P = 1;  S = 0.5;
 world.payoff_mat = [R S; T P];
 
 %% Initialize 
 % Call init function
 init();
-% disp(world.composition);
+disp(world.composition);
 %% Run Game
 
 % play test iterations within mobility Range to find the free square
@@ -101,16 +101,14 @@ for round = 1:world.rounds
 %     empties_comp = find(world.composition==0);
 %     empties_payo = find(world.payoff==0);
 %     if (empties_comp ~= empties_payo)
-%         erro  r("ERROR: There are empty slots that have nozero payoffs");
+%         error("ERROR: There are empty slots that have nozero payoffs");
 %     end
 end
 
-% disp(world.composition);
+disp(world.composition);
 total_players = world.all_cooperators+world.all_defectors;
 t = [1:world.rounds+1];
-%plot(t,total_players,t,world.all_imitated);
-plot_pop(world);
-% plot(t,world.all_cooperators,t,world.all_defectors);
+plot(t,total_players,t,world.all_imitated,t,world.all_cooperators,t,world.all_defectors);
 %
 % adapt strategy of neighbor if overall payoff of neighbor was higher than
 % that of the focal player (choose closest if there are multiple options)

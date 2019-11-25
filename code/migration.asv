@@ -94,7 +94,11 @@ if game.imitation
     %it is probably easiest to redefine the entire cell_players
    
     % we want to change the focal players that moved to theri new locations
-    cell_players = mat2cell(destination,[ones(1,size(destination,1))],[size(destination,2)]);
+    changed = find(last_game.migrated);
+    focal_idx(changed) = destindation_idx;
+    [i,o] = ind2sub(size(world.composition),focal_idx); % find coordinates from index
+    mat_players = [i o];
+    cell_players = mat2cell(mat_players,[ones(1,size(mat_players,1))],[size(mat_players,2)]);
     
     imitation_fun = @(p_cord) imitate(p_cord);
     [imitated_cell, imitated_cord_cell, player_cord_cell] = cellfun(imitation_fun, cell_players, 'un',0);
