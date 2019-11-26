@@ -27,9 +27,11 @@ if isempty(findobj('type','figure','name','Population'))
     axis equal
     axis off
 end
-map = [ 0 0 0
+map = [ 1 1 1
         0 1 0
         1 0 0];
+mat = padarray(world.composition,1,'pre');
+mat = padarray(mat,[0 1],'post');
 pcolor(ax,world.composition);
 % surf(world.composition,map)
 view(ax,2);
