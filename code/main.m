@@ -14,9 +14,6 @@ global world
 % Grid
 world.L = 50; % sidelength of the board
 
-% Game Type
-world.noise = false;         % or noise  {true,false}
-
 world.rounds = 200; % amount of rounds to be played
 
 % Player distribution
@@ -28,7 +25,7 @@ world.p_cooperators = 0.5;          % percentage of cooperators
 world.p_defectors = 1 - world.p_cooperators;            % percentage of defectors
 
 % Strategy Parameters
-T = 8;  R = 3;  P = 1;  S = 0.5;
+T = 1.3;  R = 1;  P = 0.1;  S = 0;
 world.payoff_mat = [R S; T P];
 
 %% Initialize 
@@ -47,10 +44,20 @@ game.migration = true;
 game.p_migration = 1;    % probability to imitate better strategies
 
 game.imitation = true;
-game.p_imitation = 1;    % probability to migrate to more favorable areas
+game.p_imitation = 0.25;    % probability to migrate to more favorable areas
+
+game.noise = false;
+game.p_mig_noise = 0.05;
+game.p_strat_noise = 0.05;
+
+game.leaders = true;
+game.n_leaders = 5;
+game.leader_influence = 2;
+
+
 
 game.m = 1;    % neighborhood dimension
-game.M = 1;    % mobility range
+game.M = 2;    % mobility range
 
 % DEBUG
 if and(world.density == 1, game.migration == true)
@@ -108,7 +115,10 @@ end
 % disp(world.composition);
 total_players = world.all_cooperators+world.all_defectors;
 t = [1:world.rounds+1];
-%plot(t,total_players,t,world.all_imitated);
+pop_comp_plot = figure('Name','Population comparison',...
+    'NumberTitle','off','Position',[1000 100 600 600]);
+ax2 = axes(pop_comp_plot);
+plot(ax2,t,total_players,t,world.all_imitated,t,world.all_cooperators,t,world.all_defectors);
 plot_pop(world);
 % plot(t,world.all_cooperators,t,world.all_defectors);
 %

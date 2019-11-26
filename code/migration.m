@@ -49,7 +49,7 @@ if game.migration
     
     % keep track of any slots that have already been "saved" by other
     % players to avoid two players migrating to the same position and
-    % deleting a player
+    % mergin into one
     game.occupied_idx = [];
     game.occupied_strat = [];
     
@@ -92,12 +92,13 @@ if game.imitation
     %in a slot to imitate a strategy, when it has actually already migrated
     %to a different location
     %it is probably easiest to redefine the entire cell_players
-   
-    % we want to change the focal players that moved to theri new locations
-    cell_players = mat2cell(destination,[ones(1,size(destination,1))],[size(destination,2)]);
-    
+    if game.migration
+        % we want to change the focal players that moved to their new locations
+        cell_players = mat2cell(destination,[ones(1,size(destination,1))],[size(destination,2)]);
+    end
+        
     imitation_fun = @(p_cord) imitate(p_cord);
-    [imitated_cell, imitated_cord_cell, player_cord_cell] = cellfun(imitation_fun, cell_players, 'un',0);
+     [imitated_cell, imitated_cord_cell, player_cord_cell] = cellfun(imitation_fun, cell_players, 'un',0);
     
     % convert cells back to matricies
     last_game.imitated = cell2mat(imitated_cell);
@@ -113,6 +114,7 @@ if game.imitation
     
 end
 
-% Implement Noise
-    
+if game.noise
+    % Implement Noise
+end
 end

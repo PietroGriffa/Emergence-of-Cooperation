@@ -17,25 +17,29 @@ function [] = plot_pop(world)
 % !!! This is the old function, must be changed depending on what it takes
 % as input !!!
 
+persistent ax
+
 if isempty(findobj('type','figure','name','Population'))
     % If figure is not initializated yet, do it
-    pop_plot = figure('Name','Population','NumberTitle','off','Position',[1200 100 600 600]);
+    pop_plot = figure('Name','Population','NumberTitle','off','Position',[200 100 600 600]);
+    ax = axes(pop_plot);
     title('Population')
     axis equal
     axis off
-else
-    % If figure is already initializated, it calls it as the most recent
-    % one
-    figure(findobj('type','figure','name','Population'));
 end
-pcolor(world.composition);
+map = [ 0 0 0
+        0 1 0
+        1 0 0];
+pcolor(ax,world.composition);
+% surf(world.composition,map)
+view(ax,2);
 colorbar
-hold on
+hold(ax,'on');
 if ~isempty(world.composition)
-    plot(world.composition(2,:)+0.5,world.composition(1,:)+0.5,'or');
+    plot(ax,world.composition(2,:)+0.5,world.composition(1,:)+0.5,'or');
 end
-hold off
-drawnow;
+hold(ax,'off');
+% drawnow;
 pause(.2);
 
 end     % end function
