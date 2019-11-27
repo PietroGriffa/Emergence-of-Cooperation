@@ -1,5 +1,6 @@
 function [] = migration()
-% Implementation of the migration game.
+% Implementation of the game. Contains the main migration logic of the game
+% and calls additional functions needed.
 %
 % Three parts:
 %   1) play the game and update payoffs
@@ -9,7 +10,7 @@ function [] = migration()
 % Inputs:
 %   - world: structure with all the info about the evolution of teh system
 %   - migration: structure with all the options of interest for the
-%           specific type of game
+%     specific type of game
 %
 % Outputs:
 %   - last_game: structure that summarizes the last game played
