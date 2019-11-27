@@ -35,7 +35,7 @@ world.payoff_mat = [R S 4*T; T P 0; 0 0 0];       % force leadership
 
 % Migration Parameters
 game.migration = true;
-game.p_migration = 1;    % probability to imitate better strategies
+game.p_migration = 0.25;    % probability to imitate better strategies
 game.M = 2;    % mobility range
 
 % Imitation Parameters
@@ -47,7 +47,7 @@ game.noise = true;
 game.p_strat_noise = 0.01;
 
 % Leadership Parameters
-world.leadership = false;
+world.leadership = true;
 world.n_leaders = 5;
 
 % leaders do: don't change at all, always cooperate
