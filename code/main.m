@@ -1,17 +1,27 @@
 %% Main code
 %
-% Here is where all the functions are called
+% Agent Based Modelling and Social System Simulation project
+% class of 2019
+%
+% team: cooperETHors
+%
+% Griffa Pietro
+% Hunhevicz Jens
+% Kerstan Sophie
+% Stolle Jonas
     
 %% Tabula Rasa
-close all
-clear all
-clc
+close all;  clear all;  clc;
 
 %% World parameters
 
+% Global variables
 global world
 global game
 global last_game
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SET INITIAL VARIABLES HERE
 
 % Values used in the literature of Helbing et al. (2011):
 % density = 0.5
@@ -21,31 +31,33 @@ global last_game
 % Payoffs: R = 1, S = 0, T = 1.3, P = 0.1
 
 % Grid
-world.L = 49; % sidelength of the grid
-world.rounds =  100; % amount of rounds to be played (t)
+world.L = 50;           % sidelength of the grid
+world.rounds =  100;    % amount of rounds to be played (t)
 
 % Player distribution
-world.density = 0.5;          % percentage of the grid should be populated [0,1]
+world.density = 1;              % percentage of the grid should be populated [0,1]
 % Attention: if density is 1, migration is not possible
-world.N = 20;                 % number of people offered to play the game
-world.p_cooperators = 0.5;    % percentage of cooperators
+world.N = 20;                   % number of people offered to play the game
+world.p_cooperators = 0.5;      % percentage of cooperators
 
 % Strategy Parameters
-T = 0.8;  R = 0.3;  P = 0.1;  S = 0;
+T = 0.8;  R = 0.3;  P = 0.1;  S = 0;            % payoffs for Prisoner Dilemma
 % Choose between the two matrices:
 % world.payoff_mat = [R S; T P];                % original
 world.payoff_mat = [R S 4*T; T P 0; 0 0 0];     % force leadership
 
 % Migration Parameters
-game.migration = false;
+game.migration = false;     % set to true in want to give the chance to move to a different 
+                            %   free slot after playing
 game.p_migration = 0.25;    % probability to imitate better strategies
-game.M = 2;    % mobility range
+game.M = 2;                 % mobility range
 
 % Imitation Parameters
-game.imitation = true;
+game.imitation = true;      % set to true in want to give the chance to imitate
+                            %   better strategies after playing
 game.p_imitation = 0.35;    % probability to migrate to more favorable areas
 
-%Noise Parameters (Random choice of the opposite strategy)
+%   Noise Parameters (Random choice of the opposite strategy)
 game.noise = true;
 game.p_strat_noise = 0.01;
 
@@ -54,9 +66,23 @@ world.leadership = true;
 world.n_leaders = 5;
 
 % DO NOT CHANGE
-game.m = 1;    % neighborhood dimension
-world.p_defectors = 1 - world.p_cooperators;            % percentage of defectors
-world.n = round(world.density * (world.L)^2); %total number of players, rounds as we can't have non integer amount of players
+game.m = 1;                                     % neighborhood dimension
+world.p_defectors = 1 - world.p_cooperators;    % percentage of defectors
+world.n = round(world.density * (world.L)^2);   %total number of players, rounds as we can't have non integer amount of players
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   He that does good to another does good also to himself.
+%                                                 - Seneca
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Saving images options
+save_image_options = struct('only_last',        true,...
+                            'all',              false,...
+                            'image_basename',   'image',...
+                            'format_type',      'eps');
+end_flag = 0;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %% Initialize 
 % Call init function
@@ -86,6 +112,7 @@ world.all_defectors = world.n_def; %all n_def saved over entire game
 
 % Let players play game in their von Neuman Neighborhood
 for round = 1:world.rounds
+    
     disp(round);
     % Call migration() function with the main game logic
     migration();
@@ -115,9 +142,15 @@ for round = 1:world.rounds
 %     empties_comp = find(world.composition==0);
 %     empties_payo = find(world.payoff==0);
 %     if (empties_comp ~= empties_payo)
-%         erro  r("ERROR: There are empty slots that have nozero payoffs");
+%         error("ERROR: There are empty slots that have nozero payoffs");
 %     end
+    
+    if save_image_options.all
+        plot_pop(save_image_options);
+    end
+
 end
+end_flag = 1;
 
 %% Plotting
 % disp(world.composition);
@@ -127,7 +160,7 @@ pop_comp_plot = figure('Name','Population comparison',...
     'NumberTitle','off','Position',[700 50 500 500]);
 ax2 = axes(pop_comp_plot);
 plot(ax2,t,total_players,t,world.all_imitated,t,world.all_cooperators,t,world.all_defectors);
-plot_pop();
+plot_pop(save_image_options,end_flag);
 % disp(world.composition);
 % plot(t,world.all_cooperators,t,world.all_defectors);
 %
