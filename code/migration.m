@@ -39,15 +39,11 @@ end    % end if statement
 
 
 
-% Compute new payoffs for players (and update payoffs map)
+% Compute new payoffs for players (and update payoff map)
 neighborhood_watch_fun =@(p,q) neighborhood_watch(p,world.composition);
 last_game.payoff_list = cellfun(neighborhood_watch_fun,cell_players);
 last_game.payoff = world.payoff;
 last_game.payoff(focal_idx) = last_game.payoff_list;
-
-
-% Update map of payoff
-% world.payoff  = 
 
 %% Imitation and migration
 
