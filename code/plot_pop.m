@@ -47,6 +47,7 @@ mat = world.composition;
 mat(world.leaders) = 3;
 mat = padarray(mat,1,'post');
 mat = padarray(mat,[0 1],'post');
+mat = mat(end:-1:1,:);  % make the matrix upside down so that the representation is correct
 pcolor(ax,mat);
 % surf(world.composition,map)
 view(ax,2);
