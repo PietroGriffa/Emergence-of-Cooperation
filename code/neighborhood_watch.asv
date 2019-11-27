@@ -42,20 +42,8 @@ idx2check = sub2ind([world.L world.L],rows,columns);
 %works
 
 player_strategy = comp_mat(player_idx);    % strategy 
-if world.leadership                                             % force leadership
-
-    for e = 1:length(world.leaders)                             % force leadership
-        player_strategy(player_idx==world.leaders(e)) = 3;      % force leadership
-    end     % end for loop                                      % force leadership
-end % end if                                                    % force leadership
-
+if 
 neighbors_strategy = comp_mat(idx2check);  % strategy of neighboring player
-if world.leadership                                             % force leadership
-    for e = 1:length(world.leaders)                             % force leadership
-        neighbors_strategy(idx2check==world.leaders(e)) = 3;    % force leadership
-    end     % end for loop                                      % force leadership
-end % end if                                                    % force leadership
-
 neighbors_strategy = neighbors_strategy(neighbors_strategy~=0); % remove free slots
 
 sub2sum = [ones(length(neighbors_strategy),1)*player_strategy neighbors_strategy];

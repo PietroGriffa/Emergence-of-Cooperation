@@ -35,12 +35,8 @@ map = [ 1 1 1
         0 0 1];
 if (world.n_leaders == 0) || (world.leadership == 0)
     map(end,:)=[];
-elseif  world.all_cooperators(world.rounds+1) == 0
-    map(2,:) =[];
-elseif  world.all_defectors(world.rounds+1) == 0
-    map(3,:) =[];
 end
-
+if  world.all_cooperators(round+1)
 
 colormap(map);
 mat = world.composition;

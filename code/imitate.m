@@ -23,9 +23,13 @@ if rand>game.p_imitation
     imitated_cord = player_cord;
 
 else
-    v = [-game.m:1:game.m];
-    combs = unique(nchoosek(repmat(v,1,2),2),'rows');
-
+%     v = [-game.m:1:game.m];
+%     combs = unique(nchoosek(repmat(v,1,2),2),'rows');
+combs =[0 -1
+        0 1
+        1 0
+        -1 0
+        0 0];
     %might need to do a check for neative subscripts or do boundary conditions
     to_check = player_cord+combs;    % indices of points around focal we want to check
     

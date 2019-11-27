@@ -16,9 +16,9 @@ global last_game
 %% Initialize Population Matrix
 
 % get total number of cooperators and defectors
-world.n_coop = round(world.n*world.p_cooperators);
-world.n_def = world.n-world.n_coop;
-
+world.n_coop = world.n*world.p_cooperators;
+world.n_def = world.n*(1-world.p_cooperators);
+disp(wor
 %create random succession of indexes
 succession = rand(world.L*world.L,1);
 [useless,order] = sort(succession);
@@ -33,6 +33,7 @@ world.composition(def_idx)=2;
 %   0    for empty slot
 %   1    for cooperators
 %   2    for defectors
+
 %% Initialize Leaders
 if world.leadership
     all_cooperators_idx = find(world.composition == 1);    %idx of all cooperators in world.composition

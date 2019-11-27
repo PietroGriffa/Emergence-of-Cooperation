@@ -20,16 +20,24 @@ global last_game
 
 populatedslots = find(world.composition);           % identify populated slots
 focal_idx = randsample(populatedslots, world.N);    % sample players from population
+focal_idx_nl = focal_idx;
 
 [row,col] = ind2sub(size(world.composition),focal_idx); % find coordinates from index
 mat_players = [row col];
-
-% Convert the matrix of the coordinates of the players for the game in a
-% cell array (num_players x 1).
-% (This way we can call the function to compute the new payoff easily for
-% all players through cellfun).
 cell_players = mat2cell(mat_players,[ones(1,size(mat_players,1))],[size(mat_players,2)]);
-% celldisp(cell_players); %tests
+
+if (world.leadership == true)
+    for e = 1:length(world.leaders)
+        focal_idx_nl(focal_idx_nl==world.leaders(e)) = [];
+    end     % end for loop
+    [row,col] = ind2sub(size(world.composition),focal_idx_nl); % find coordinates from index
+    mat_players = [row col];
+    cell_players_nl = mat2cell(mat_players,[ones(1,size(mat_players,1))],[size(mat_players,2)]);
+else
+    cell_players_nl = cell_players;
+end    % end if statement
+
+
 
 % Compute new payoffs for players (and update payoffs map)
 neighborhood_watch_fun =@(p,q) neighborhood_watch(p,world.composition);
@@ -40,7 +48,6 @@ last_game.payoff(focal_idx) = last_game.payoff_list;
 
 % Update map of payoff
 % world.payoff  = 
-
 
 %% Imitation and migration
 
@@ -55,7 +62,7 @@ if game.migration
     
     %apply success_driven_migration on all focal players
     migration_fun =@(p_cord) success_driven_migration(p_cord);
-    [migrated_cell, origin_cell, destination_cell, distance_cell] = cellfun(migration_fun, cell_players,'un',0);
+    [migrated_cell, origin_cell, destination_cell, distance_cell] = cellfun(migration_fun, cell_players_nl,'un',0);
 
     %convert cells back to matrices
     last_game.migrated = cell2mat(migrated_cell);
@@ -92,13 +99,14 @@ if game.imitation
     %in a slot to imitate a strategy, when it has actually already migrated
     %to a different location
     %it is probably easiest to redefine the entire cell_players
+    
     if game.migration
         % we want to change the focal players that moved to their new locations
-        cell_players = mat2cell(destination,[ones(1,size(destination,1))],[size(destination,2)]);
+        cell_players_nl = mat2cell(destination,[ones(1,size(destination,1))],[size(destination,2)]);
     end
         
     imitation_fun = @(p_cord) imitate(p_cord);
-     [imitated_cell, imitated_cord_cell, player_cord_cell] = cellfun(imitation_fun, cell_players, 'un',0);
+    [imitated_cell, imitated_cord_cell, player_cord_cell] = cellfun(imitation_fun, cell_players_nl, 'un',0);
     
     % convert cells back to matricies
     last_game.imitated = cell2mat(imitated_cell);
@@ -111,10 +119,13 @@ if game.imitation
     to_imitate = find(last_game.imitated);
     imitated_idx = imitated_idx(last_game.imitated == 1);
     last_game.composition(player_idx(to_imitate)) = world.composition(imitated_idx);
+    % last_game updated
     
-end
+end % end imitation
 
 if game.noise
-    % Implement Noise
-end
-end
+    noise_fun =@(pc) noise(pc);
+    cellfun(noise_fun,cell_players_nl);
+end % end noise
+
+end % end function
