@@ -1,9 +1,10 @@
-﻿# MATLAB Fall 2014 – Research Plan (Template)
-(text between brackets to be removed)
+﻿##  Agent-Based Modeling and Social System Simulation - Fall 2019
 
-> * Group Name: (be creative!)
-> * Group participants names: (alphabetically sorted by last name)
-> * Project Title: (can be changed later)
+#  Emergence of Cooperation with Stationary Leaders: The Case of Silicon Valley Firms
+
+> * Group Name: cooperETHors
+> * Group participants names: Griffa Pietro,  Hunhevicz Jens, Kerstan Sophie, Stolle Jonas
+> * Project Title: Emergence of Cooperation with Stationary Leaders: The Case of Silicon Valley Firms
 
 ## General Introduction
 
@@ -13,10 +14,14 @@
 
 ## The Model
 
+Study the emergence of cooperation, extending the model of Helbing et al. [1] towards stationary leadership by example [2].
+
 (Define dependent and independent variables you want to study. Say how you want to measure them.) (Why is your model a good abtraction of the problem you want to study?) (Are you capturing all the relevant aspects of the problem?)
 
 
 ## Fundamental Questions
+
+
 
 (At the end of the project you want to find the answer to these questions)
 (Formulate a few, clear questions. Articulate them in sub-questions, from the more general to the more specific. )
@@ -27,20 +32,14 @@
 (What are the answers to the above questions that you expect to find before starting your research?)
 
 
-## References 
+## References
 
-(Add the bibliographic references you intend to use)
-(Explain possible extension to the above models)
-(Code / Projects Reports of the previous year)
+The work is mainly based on the following two references. In the report (see folder `doc`), more context and additional literature is reviewed and discussed.
 
+[1]  Dirk Helbing, Wenjian Yu, and Heiko Rauhut. Self-organization and emergence insocial systems:  Modeling the coevolution of social environments and cooperativebehavior.Journal of Mathematical Sociology, 35(1-3):177–208, 2011.
+
+[2]  Jalal  Eddine  Bahbouhi  and  Najem  Moussa.   A  graph-based  model  for  publicgoods with leaderships.Applied Mathematics and Computation, 349:53–61, 2019.
 
 ## Research Methods
 
-(Cellular Automata, Agent-Based Model, Continuous Modeling...) (If you are not sure here: 1. Consult your colleagues, 2. ask the teachers, 3. remember that you can change it afterwards)
-
-
-## Other
-
-(mention datasets you are going to use)
-
-test, ignore
+This reserach is using Agent-Based Simulation to study the emergence of cooperation on a spatial grid. The underlying game theory mechanism is based on the Prisoners Dilemma. In addition to the standard interaction in their Von-Neumann neighborhood, imitation, success-driven migration, and leadership is introduced. The work is based on the following references: [1], [2]. For more detailed information please see the report in the folder `doc`.
