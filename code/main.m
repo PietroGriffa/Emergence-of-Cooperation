@@ -37,13 +37,13 @@ T = 0.8;  R = 0.3;  P = 0.1;  S = 0;
 world.payoff_mat = [R S 4*T; T P 0; 0 0 0];     % force leadership
 
 % Migration Parameters
-game.migration = true;
+game.migration = false;
 game.p_migration = 0.25;    % probability to imitate better strategies
 game.M = 2;    % mobility range
 
 % Imitation Parameters
 game.imitation = true;
-game.p_imitation = 0.25;    % probability to migrate to more favorable areas
+game.p_imitation = 0.35;    % probability to migrate to more favorable areas
 
 %Noise Parameters (Random choice of the opposite strategy)
 game.noise = true;
@@ -57,10 +57,12 @@ world.n_leaders = 5;
 game.m = 1;    % neighborhood dimension
 world.p_defectors = 1 - world.p_cooperators;            % percentage of defectors
 world.n = round(world.density * (world.L)^2); %total number of players, rounds as we can't have non integer amount of players
+
 %% Initialize 
 % Call init function
 init();
 % disp(world.composition);
+
 %% Run Game
 % play test iterations within mobility Range to find the free square
 % with the highest expected payoff
