@@ -29,40 +29,45 @@ global last_game
 % noise = 0.05
 % L = 49
 % Payoffs: R = 1, S = 0, T = 1.3, P = 0.1
+% Rounds (t): 50
+% Keep probability of migration and imitation 1! Otherwise it takes more
+% rounds...
+% N = 50 to 100 for L=49, t=50 seems a good number to reproduce the result
 
 % Grid
-world.L = 50;           % sidelength of the grid
+world.L = 49;           % sidelength of the grid
 world.rounds =  100;    % amount of rounds to be played (t)
 
 % Player distribution
 world.density = 1;              % percentage of the grid should be populated [0,1]
 % Attention: if density is 1, migration is not possible
-world.N = 20;                   % number of people offered to play the game
-world.p_cooperators = 0.5;      % percentage of cooperators
+
+world.N = 100;                % number of people offered to play the game
+% The higher N, the faster the equilibrium is reached.
+world.p_cooperators = 0.5;    % percentage of cooperators
 
 % Strategy Parameters
-T = 0.8;  R = 0.3;  P = 0.1;  S = 0;            % payoffs for Prisoner Dilemma
-% Choose between the two matrices:
-% world.payoff_mat = [R S; T P];                % original
-world.payoff_mat = [R S 4*T; T P 0; 0 0 0];     % force leadership
+T = 1.3;  R = 1;  P = 0.1;  S = 0;
+% Choose between the two matrices (comment out the other):
+world.payoff_mat = [R S; T P];                % original (without leadership)
+%world.payoff_mat = [R S 4*T; T P 0; 0 0 0];  % with leadership
 
 % Migration Parameters
-game.migration = false;     % set to true in want to give the chance to move to a different 
-                            %   free slot after playing
-game.p_migration = 0.25;    % probability to imitate better strategies
-game.M = 2;                 % mobility range
+game.migration = true;
+game.p_migration = 1;    % probability to imitate better strategies
+game.M = 2;    % mobility range
 
 % Imitation Parameters
-game.imitation = true;      % set to true in want to give the chance to imitate
-                            %   better strategies after playing
-game.p_imitation = 0.35;    % probability to migrate to more favorable areas
+game.imitation = true;
+game.p_imitation = 1;    % probability to migrate to more favorable areas
 
 %   Noise Parameters (Random choice of the opposite strategy)
 game.noise = true;
 game.p_strat_noise = 0.01;
 
 % Leadership Parameters (Leading by example: always cooperate and stationary)
-world.leadership = true;
+% If you change this, do not forget to change also the payoff matrix!
+world.leadership = false;
 world.n_leaders = 5;
 
 % DO NOT CHANGE
