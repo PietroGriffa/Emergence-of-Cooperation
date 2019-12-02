@@ -23,57 +23,44 @@ global last_game
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% SET INITIAL VARIABLES HERE
 
-% Values used in the literature of Helbing et al. (2011):
-% density = 0.5
-% p_cooperators = 0.5
-% noise = 0.05
-% L = 49
-% Payoffs: R = 1, S = 0, T = 1.3, P = 0.1
-% Rounds (t): 50
-% Keep probability of migration and imitation 1! Otherwise it takes more
-% rounds...
-% N = 50 to 100 for L=49, t=50 seems a good number to reproduce the result
-
 % Grid
-world.L = 49;           % sidelength of the grid
+world.L = 50;           % sidelength of the grid
 world.rounds =  100;    % amount of rounds to be played (t)
 
 % Player distribution
-world.density = 1;              % percentage of the grid should be populated [0,1]
+world.density = 0.5;              % percentage of the grid should be populated [0,1]
 % Attention: if density is 1, migration is not possible
 
 world.N = 100;                % number of people offered to play the game
 % The higher N, the faster the equilibrium is reached.
 world.p_cooperators = 0.5;    % percentage of cooperators
 
-% Strategy Parameters
-T = 1.3;  R = 1;  P = 0.1;  S = 0;
-% Choose between the two matrices (comment out the other):
-world.payoff_mat = [R S; T P];                % original (without leadership)
-%world.payoff_mat = [R S 4*T; T P 0; 0 0 0];  % with leadership
-
 % Migration Parameters
 game.migration = true;
-game.p_migration = 1;    % probability to imitate better strategies
-game.M = 2;    % mobility range
+game.p_migration = 1;       % probability to imitate better strategies
+game.M = 2;                 % mobility range
 
 % Imitation Parameters
 game.imitation = true;
 game.p_imitation = 1;    % probability to migrate to more favorable areas
 
 %   Noise Parameters (Random choice of the opposite strategy)
-game.noise = true;
+game.noise = false;
 game.p_strat_noise = 0.01;
 
 % Leadership Parameters (Leading by example: always cooperate and stationary)
 % If you change this, do not forget to change also the payoff matrix!
-world.leadership = false;
-world.n_leaders = 5;
+world.leadership = true;
+world.n_leaders = 10;
 
-% DO NOT CHANGE
-game.m = 1;                                     % neighborhood dimension
-world.p_defectors = 1 - world.p_cooperators;    % percentage of defectors
-world.n = round(world.density * (world.L)^2);   %total number of players, rounds as we can't have non integer amount of players
+% Strategy Parameters
+T = 1.3;  R = 1;  P = 0.1;  S = 0;
+% Choose between the two matrices (comment out the other):
+%world.payoff_mat = [R S; T P];                  % original (without leadership)
+world.payoff_mat = [R   S   2*R
+                    T   P   T   
+                    R   S   R];     % with leadership
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %   He that does good to another does good also to himself.
@@ -86,7 +73,13 @@ save_image_options = struct('only_last',        true,...
                             'image_basename',   'image',...
                             'format_type',      'eps');
 end_flag = 0;
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+game.m = 1;                                     % neighborhood dimension
+world.p_defectors = 1 - world.p_cooperators;    % percentage of defectors
+world.n = round(world.density * (world.L)^2);   %total number of players, rounds as we can't have non integer amount of players
 
 
 %% Initialize 
@@ -115,10 +108,12 @@ world.all_imitated = 0; % how many players imitated each round
 world.all_cooperators = world.n_coop; % all n_coop saved over entire game
 world.all_defectors = world.n_def; %all n_def saved over entire game
 
+%wb = waitbar(0,'Starting');
+
 % Let players play game in their von Neuman Neighborhood
 for round = 1:world.rounds
     
-    disp(round);
+    %disp(round);
     % Call migration() function with the main game logic
     migration();
     %NOTE: all changes made by this function are saved in the last_game
@@ -153,7 +148,9 @@ for round = 1:world.rounds
     if save_image_options.all
         plot_pop(save_image_options);
     end
-
+    
+    %waitbar(round/world.rounds,wb,'Loading');
+    
 end
 end_flag = 1;
 

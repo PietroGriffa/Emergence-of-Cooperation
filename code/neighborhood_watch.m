@@ -43,7 +43,6 @@ idx2check = sub2ind([world.L world.L],rows,columns);
 
 player_strategy = comp_mat(player_idx);    % strategy 
 if world.leadership                                             % force leadership
-
     for e = 1:length(world.leaders)                             % force leadership
         player_strategy(player_idx==world.leaders(e)) = 3;      % force leadership
     end     % end for loop                                      % force leadership
@@ -59,6 +58,7 @@ end % end if                                                    % force leadersh
 neighbors_strategy = neighbors_strategy(neighbors_strategy~=0); % remove free slots
 
 sub2sum = [ones(length(neighbors_strategy),1)*player_strategy neighbors_strategy];
+%disp(sub2sum);  % for debugging purposes
 idx2sum = sub2ind(size(world.payoff_mat),sub2sum(:,1),sub2sum(:,2));    % switch form coordinates to indices
 
 % The payoff of the focal player is computed x the sum of the payoffs

@@ -31,9 +31,9 @@ if isempty(findobj('type','figure','name','Population'))
 end
 
 map = [ 1 1 1
-        0 0 1
+        0 1 0
         1 0 0
-        0 1 0];
+        0 0 1];
     
 if (world.n_leaders == 0) || (world.leadership == 0)
     map(end,:)=[];
