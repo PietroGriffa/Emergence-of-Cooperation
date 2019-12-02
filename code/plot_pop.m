@@ -1,4 +1,4 @@
-function [] = plot_pop(save_image_options,end_flag)
+function [] = plot_pop(save_image_options,end_flag,round)
 % Function that plots the population grid
 %
 % Input:
@@ -37,9 +37,9 @@ map = [ 1 1 1
     
 if (world.n_leaders == 0) || (world.leadership == 0)
     map(end,:)=[];
-elseif  world.all_cooperators(world.rounds+1) == 0
+elseif  world.all_cooperators(round+1) == 0
     map(2,:) =[];
-elseif  world.all_defectors(world.rounds+1) == 0
+elseif  world.all_defectors(round+1) == 0
     map(3,:) =[];
 end
 

@@ -24,28 +24,28 @@ global last_game
 %% SET INITIAL VARIABLES HERE
 
 % Grid
-world.L = 50;           % sidelength of the grid
-world.rounds =  100;    % amount of rounds to be played (t)
+world.L = 49;           % sidelength of the grid
+world.rounds =  1000;    % amount of rounds to be played (t)
 
 % Player distribution
 world.density = 0.5;              % percentage of the grid should be populated [0,1]
 % Attention: if density is 1, migration is not possible
 
-world.N = 100;                % number of people offered to play the game
+world.N = 20;                % number of people offered to play the game
 % The higher N, the faster the equilibrium is reached.
 world.p_cooperators = 0.5;    % percentage of cooperators
 
 % Migration Parameters
 game.migration = true;
-game.p_migration = 1;       % probability to imitate better strategies
+game.p_migration = 0.25;       % probability to imitate better strategies
 game.M = 2;                 % mobility range
 
 % Imitation Parameters
 game.imitation = true;
-game.p_imitation = 1;    % probability to migrate to more favorable areas
+game.p_imitation = 0.25;    % probability to migrate to more favorable areas
 
 %   Noise Parameters (Random choice of the opposite strategy)
-game.noise = false;
+game.noise = true;
 game.p_strat_noise = 0.01;
 
 % Leadership Parameters (Leading by example: always cooperate and stationary)
@@ -57,8 +57,8 @@ world.n_leaders = 10;
 T = 1.3;  R = 1;  P = 0.1;  S = 0;
 % Choose between the two matrices (comment out the other):
 %world.payoff_mat = [R S; T P];                  % original (without leadership)
-world.payoff_mat = [R   S   2*R
-                    T   P   T   
+world.payoff_mat = [R   S   4*R
+                    T   P   0   
                     R   S   R];     % with leadership
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,8 +68,8 @@ world.payoff_mat = [R   S   2*R
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Saving images options
-save_image_options = struct('only_last',        true,...
-                            'all',              false,...
+save_image_options = struct('only_last',        false,...
+                            'all',              true,...
                             'image_basename',   'image',...
                             'format_type',      'eps');
 end_flag = 0;
@@ -146,7 +146,7 @@ for round = 1:world.rounds
 %     end
     
     if save_image_options.all
-        plot_pop(save_image_options);
+        plot_pop(save_image_options,end_flag,round);
     end
     
     %waitbar(round/world.rounds,wb,'Loading');
@@ -162,7 +162,7 @@ pop_comp_plot = figure('Name','Population comparison',...
     'NumberTitle','off','Position',[700 50 500 500]);
 ax2 = axes(pop_comp_plot);
 plot(ax2,t,total_players,t,world.all_imitated,t,world.all_cooperators,t,world.all_defectors);
-plot_pop(save_image_options,end_flag);
+plot_pop(save_image_options,end_flag,world.rounds);
 % disp(world.composition);
 % plot(t,world.all_cooperators,t,world.all_defectors);
 %
