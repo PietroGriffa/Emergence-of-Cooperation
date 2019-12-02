@@ -50,13 +50,13 @@ combs =[0 -1
     if (sum(sel,'all')==0)
         max_cord = player_cord;
     else
-        [useless, max_idx] = max(sel(:)); % max_idx is the linear index 
+        [~, max_idx] = max(sel(:)); % max_idx is the linear index 
         %   of maximum value in sel and therefore the index of the maximum payoff
         %   in the neighborhood (trash would be the corresponding payoff, can be ignored)
 
         %world.composition(idx) = world.composition(max_idx);
 
-        [a b] = ind2sub(size(world.composition),max_idx);
+        [a, b] = ind2sub(size(world.composition),max_idx);
         max_cord = [a b];
     end 
     

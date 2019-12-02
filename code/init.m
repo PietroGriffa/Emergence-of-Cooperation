@@ -21,7 +21,7 @@ world.n_def = world.n-world.n_coop;
 
 %create random succession of indexes
 succession = rand(world.L*world.L,1);
-[useless,order] = sort(succession);
+[~,order] = sort(succession);
 
 % distribute cooperators and defectors randomly using random indexes
 world.composition = zeros(world.L,world.L);
@@ -40,13 +40,12 @@ if world.leadership
 else
     world.leaders = [];
 end % end if
-%% Initialze Payoff Matrix
 
+%% Initialze Payoff Matrix
 world.payoff = zeros(world.L);  % payoff now in an identical grid as the composition
 % there are no payoffs before the first game has been played
 
 %% Initialize last_game
-
 last_game.composition = world.composition;
 last_game.payoff = world.payoff;
 

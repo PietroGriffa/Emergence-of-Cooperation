@@ -29,17 +29,15 @@ to_check = player_cords+combs;    % indices of points around focal we want to ch
 
 player_idx = sub2ind([world.L world.L], player_cords(1,1),player_cords(1,2));
 
-%boundary condiditons
+% Boundary condiditons
 negative_cords = to_check<=0;
 to_check(negative_cords) = world.L - to_check(negative_cords);
 too_large_cords = to_check>world.L;
 to_check(too_large_cords) = to_check(too_large_cords) - world.L;
-%works
 
-% switch form coordinates to indices
+% Switch form coordinates to indices
 rows = to_check(:,1);       columns = to_check(:,2);
 idx2check = sub2ind([world.L world.L],rows,columns);
-%works
 
 player_strategy = comp_mat(player_idx);    % strategy 
 if world.leadership                                             % force leadership

@@ -24,20 +24,20 @@ global last_game
 %% SET INITIAL VARIABLES HERE
 
 % Grid
-world.L = 49;           % sidelength of the grid
-world.rounds =  1000;    % amount of rounds to be played (t)
+world.L = 50;           % sidelength of the grid
+world.rounds =  200;    % amount of rounds to be played (t)
 
 % Player distribution
 world.density = 0.5;              % percentage of the grid should be populated [0,1]
 % Attention: if density is 1, migration is not possible
 
-world.N = 20;                % number of people offered to play the game
+world.N = 60;                % number of people offered to play the game
 % The higher N, the faster the equilibrium is reached.
 world.p_cooperators = 0.5;    % percentage of cooperators
 
 % Migration Parameters
 game.migration = true;
-game.p_migration = 0.25;       % probability to imitate better strategies
+game.p_migration = 0.55;       % probability to imitate better strategies
 game.M = 2;                 % mobility range
 
 % Imitation Parameters
@@ -68,11 +68,12 @@ world.payoff_mat = [R   S   4*R
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Saving images options
-save_image_options = struct('only_last',        false,...
-                            'all',              true,...
-                            'image_basename',   'image',...
+save_image_options = struct('only_last',        true,...
+                            'all',              false,...
+                            'image_basename',   'images/image',...
                             'format_type',      'eps');
-end_flag = 0;
+
+end_flag = 0;   % identify last iteration  to save final image
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -102,13 +103,15 @@ end
 
 % Initial Data Aquisition
 world.all_compositions = world.composition; %3 dim array with all compositions
-world.all_payoffs = world.payoff; %3 dim array with all payoff matrices
-world.all_migrated = 0; %how many players migrate each round
-world.all_imitated = 0; % how many players imitated each round
-world.all_cooperators = world.n_coop; % all n_coop saved over entire game
-world.all_defectors = world.n_def; %all n_def saved over entire game
+world.all_payoffs = world.payoff;           %3 dim array with all payoff matrices
+world.all_migrated = 0;                     %how many players migrate each round
+world.all_imitated = 0;                     % how many players imitated each round
+world.all_cooperators = world.n_coop;       % all n_coop saved over entire game
+world.all_defectors = world.n_def;          %all n_def saved over entire game
 
-%wb = waitbar(0,'Starting');
+% Waitbar to show progress
+wb = waitbar(0,'Progress');
+wb.Position(2) = 500; 
 
 % Let players play game in their von Neuman Neighborhood
 for round = 1:world.rounds
@@ -149,29 +152,35 @@ for round = 1:world.rounds
         plot_pop(save_image_options,end_flag,round);
     end
     
-    %waitbar(round/world.rounds,wb,'Loading');
+    waitbar(round/world.rounds,wb);
     
 end
 end_flag = 1;
 
+close(wb);
+
 %% Plotting
-% disp(world.composition);
+% disp(world.composition);  % debug
 total_players = world.all_cooperators+world.all_defectors;
 t = [1:world.rounds+1];
+
+% Plot evolution of population's composition
 pop_comp_plot = figure('Name','Population comparison',...
     'NumberTitle','off','Position',[700 50 500 500]);
 ax2 = axes(pop_comp_plot);
-plot(ax2,t,total_players,t,world.all_imitated,t,world.all_cooperators,t,world.all_defectors);
+plot(ax2,   t,total_players,...
+            t,world.all_imitated,...
+            t,world.all_cooperators,...
+            t,world.all_defectors);
+ax2.XLim = [0 world.rounds+1];
+l = legend;
+l.String(1) = {'Total number of players'};
+l.String(2) = {'Players imitating each round'};
+l.String(3) = {'Number of cooperators'};
+l.String(4) = {'Number of defectors'};
+title(ax2,'Composition evolution')
+
+% Plot population grid
 plot_pop(save_image_options,end_flag,world.rounds);
-% disp(world.composition);
-% plot(t,world.all_cooperators,t,world.all_defectors);
-%
-% adapt strategy of neighbor if overall payoff of neighbor was higher than
-% that of the focal player (choose closest if there are multiple options)
-% if noise == true
-% apply stragegy mutations (noise_1)
-% apply random relocations (noise_2)
-% (do both if we have noise_3)2
-% end
-%
+
 

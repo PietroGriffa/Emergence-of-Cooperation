@@ -6,8 +6,7 @@ function [] = noise(player_cords)
 %
 %   Output:
 %       - changed
-%
-%
+
 %   for every non empty slot find()
 
 
@@ -35,4 +34,5 @@ end
 
 %   do the strategy noise first -> don't have to keep track of changed
 %   positions
+
 end
