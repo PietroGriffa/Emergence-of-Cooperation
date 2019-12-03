@@ -28,16 +28,16 @@ world.L = 50;           % sidelength of the grid
 world.rounds =  200;    % amount of rounds to be played (t)
 
 % Player distribution
-world.density = 0.5;              % percentage of the grid should be populated [0,1]
+world.density = 0.5;    % percentage of the grid should be populated [0,1]
 % Attention: if density is 1, migration is not possible
 
-world.N = 60;                % number of people offered to play the game
+world.N = 60;           % number of people offered to play the game
 % The higher N, the faster the equilibrium is reached.
-world.p_cooperators = 0.5;    % percentage of cooperators
+world.p_cooperators = 0.5;  % percentage of cooperators
 
 % Migration Parameters
 game.migration = true;
-game.p_migration = 0.55;       % probability to imitate better strategies
+game.p_migration = 0.55;    % probability to imitate better strategies
 game.M = 2;                 % mobility range
 
 % Imitation Parameters
@@ -56,7 +56,7 @@ world.n_leaders = 10;
 % Strategy Parameters
 T = 1.3;  R = 1;  P = 0.1;  S = 0;
 % Choose between the two matrices (comment out the other):
-%world.payoff_mat = [R S; T P];                  % original (without leadership)
+%world.payoff_mat = [R S; T P];     % original (without leadership)
 world.payoff_mat = [R   S   4*R
                     T   P   0   
                     R   S   R];     % with leadership
@@ -80,7 +80,7 @@ end_flag = 0;   % identify last iteration  to save final image
 
 game.m = 1;                                     % neighborhood dimension
 world.p_defectors = 1 - world.p_cooperators;    % percentage of defectors
-world.n = round(world.density * (world.L)^2);   %total number of players, rounds as we can't have non integer amount of players
+world.n = round(world.density * (world.L)^2);   % total number of players, rounds as we can't have non integer amount of players
 
 
 %% Initialize 
