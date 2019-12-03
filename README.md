@@ -1,10 +1,10 @@
 ﻿##  Agent-Based Modeling and Social System Simulation - Fall 2019
 
-#  Emergence of Cooperation with Stationary Leaders: The Case of Silicon Valley Firms
+#  Emergence of Cooperation with Stationary Leaders
 
 > * Group Name: cooperETHors
 > * Group participants names: Griffa Pietro,  Hunhevicz Jens, Kerstan Sophie, Stolle Jonas
-> * Project Title: Emergence of Cooperation with Stationary Leaders: The Case of Silicon Valley Firms
+> * Project Title: Emergence of Cooperation with Stationary Leaders
 
 ## General Introduction
 
@@ -34,7 +34,7 @@ Study the emergence of cooperation, extending the model of Helbing et al. [1] to
 
 ## References
 
-The work is mainly based on the following two references. In the report (see folder `doc`), more context and additional literature is reviewed and discussed.
+The work is mainly based on the following two references. In the report (see folder `doc`), additional literature is reviewed and discussed.
 
 [1]  Dirk Helbing, Wenjian Yu, and Heiko Rauhut. Self-organization and emergence insocial systems:  Modeling the coevolution of social environments and cooperativebehavior.Journal of Mathematical Sociology, 35(1-3):177–208, 2011.
 
@@ -42,4 +42,8 @@ The work is mainly based on the following two references. In the report (see fol
 
 ## Research Methods
 
-This reserach is using Agent-Based Simulation to study the emergence of cooperation on a spatial grid. The underlying game theory mechanism is based on the Prisoners Dilemma. In addition to the standard interaction in their Von-Neumann neighborhood, imitation, success-driven migration, and leadership is introduced. The work is based on the following references: [1], [2]. For more detailed information please see the report in the folder `doc`.
+This reserach is using Agent-Based Simulation to study the emergence of cooperation on a spatial grid. The underlying game theory mechanism is based on the Prisoners Dilemma. In addition to the standard interaction in their "Von-Neumann neighborhood", imitation, success-driven migration, and leadership is introduced. The work is based on the above references: [1], [2]. For more detailed information please see the report in the folder `doc`.
+
+## Reproducibility
+
+Please see the `README` in the `code` folder.

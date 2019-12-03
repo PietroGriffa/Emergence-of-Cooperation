@@ -1,3 +1,3 @@
 # Presentation Folder 
 
-Add your presentation here...but first finish the code and the report!
+This folder contains the presentation of our project.

@@ -34,4 +34,64 @@ The folder contains the following files:
 
 ## Parameters
 
-All parameters that can be defined are commented in the respective matlab file, especially the `main.m`. The output is quite sensitive to some of the parameters, so we encourage to keep the predifined values in order to reproduce the outputs. More information on specific values and the functionality of paramters can also be found in the report (see folder `doc`).
+All parameters that can be defined are commented in the in the `main.m` and need to be changed there.
+
+We encourage to use the parameters described in the following for reproducing the results of the report. First, the parameters to reproduce the findings of Helbing et. al (2011) are described withouth leadership. Second, the parameters to reproduce leadership are described.
+
+### 1. Reproducing the results of Helbing et. al. (2011)
+
+* ```world.L = 49``` (Grid-Length L)
+* ```world.rounds = 50``` (Time steps t)
+* ```world.densitiy = 0.5``` (Pecentage of empty slots)
+* ```world.N = 60``` (Amount of people offered to play the game in each round. No specifications in the paper of Helbing et. al. (2011). We found values between 50 and 100 to be suited for reproduction, given the grid-lenth of L = 49.)
+* ```world.p_cooperators = 0.5``` (Initial percentage of cooperators)
+* Strategy parameters: ```T = 1.3;  R = 1;  P = 0.1;  S = 0```;
+* Payoff matrix: ```world.payoff_mat = [R S; T P]``` (comment out the other);
+* ```game.noise = true```;
+* ```game.p_strat_noise = 0.01```;
+
+In order to reproduce imitiation only:
+* ```game.imitation = true```
+* ```game.p_imitation = 1```
+* ```game.migration = false```
+* ```world.leadership = false```
+
+In order to reproduce migration only:
+* ```game.imitation = false```
+* ```game.migration = true```
+* ```game.p_migration = 1```
+* ```game.M = 2```;  
+* ```world.leadership = false```
+
+In order to reproduce imitation combined with success-driven migration:
+* ```game.imitation = true```
+* ```game.p_imitation = 1```
+* ```game.migration = true```
+* ```game.p_migration = 1```
+* ```game.M = 2```;  
+* ```world.leadership = false```
+
+### 2. Results of Leaderhsip:
+
+* ```world.L = 49``` (Grid-Length L)
+* ```world.rounds = 200``` (Time steps t)
+* ```world.densitiy = 0.5``` (Pecentage of empty slots)
+* ```world.N = 60``` (Amount of people offered to play the game in each round. No specifications in the paper of Helbing et. al. (2011). We found values between 50 and 100 to be suited for reproduction, given the grid-lenth of L = 49.)
+* ```world.p_cooperators = 0.5``` (Initial percentage of cooperators)
+* Strategy parameters: ```T = 1.3;  R = 1;  P = 0.1;  S = 0```;
+* Payoff matrix: ```world.payoff_mat = [R   S   4*R
+                    T   P   0   
+                    R   S   R]``` (comment out the other);
+* ```game.noise = true```;
+* ```game.p_strat_noise = 0.01```;
+
+In order to reproduce the case described in the report:
+
+* ```game.migration = true```
+* ```game.p_migration = 0.55```
+* ```game.M = 2```
+* ```game.imitation = true```
+* ```game.p_imitation = 0.25```
+* ```world.leadership = true```
+* ```world.n_leaders = 10```
+
