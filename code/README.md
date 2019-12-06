@@ -18,7 +18,7 @@ In order to run the code and reproduce the results, please follow the following 
 * Open the `code` folder in Matlab
 * Navigate to the `main.m` file and run the code
 
-More explanation on the files and parameters can be found in the following sections and also in the report (see folder `doc`).
+More explanation on the files and parameters can be found in the following sections and also in the [report](../doc/report_cooperETHors.pdf) (see folder `doc`).
 
 ## Files
 
@@ -79,8 +79,8 @@ In order to reproduce imitation combined with success-driven migration:
 * ```world.N = 60``` (Amount of people offered to play the game in each round. No specifications in the paper of Helbing et. al. (2011). We found values between 50 and 100 to be suited for reproduction, given the grid-lenth of L = 49.)
 * ```world.p_cooperators = 0.5``` (Initial percentage of cooperators)
 * Strategy parameters: ```T = 2;  R = 1;  P = 0.1;  S = 0```;
-* Payoff matrix: ```world.payoff_mat = [R   S   4*R
-                    T   P   0   
+* Payoff matrix: ```world.payoff_mat = [R   S   4*R;
+                    T   P   0;  
                     R   S   R]``` (comment out the other);
 * ```game.noise = true```;
 * ```game.p_strat_noise = 0.01```;
@@ -100,7 +100,6 @@ In order to reproduce the first case described in the report without leadership 
 
 In order to reproduce the second case described in the report (see report, Figure 2, (g)/(h):
 
-
 * ```game.migration = true```
 * ```game.p_migration = 0.25```
 * ```game.M = 2```
@@ -109,5 +108,6 @@ In order to reproduce the second case described in the report (see report, Figur
 * ```world.leadership = true```
 * ```world.n_leaders = 10```
 
-In order to reproduce the second case described in the report without leadership (see report, Figure 2, (e)/(f)), use the parameters above but:
+In order to reproduce the second case described in the report without leadership (
+    Figure 2, (e)/(f)), use the parameters above but:
 * ```world.leadership = false```
